@@ -155,15 +155,19 @@ function Heal(){
 function SuperDamage(){
 
   this.getSuperDamage = function(){
-    console.log("Pour rappel voici mes dégâts actuel : " + obi.attack);
-    console.log("Pour rappel voici mes dégâts actuel : " + ennemy.attack);
+
+
+    console.log("Pour rappel voici les dégâts d'Obi Wan actuel : " + obi.attack);
+    console.log("Pour rappel voici les dégâts de l'Orc actuel : " + ennemy.attack);
+
+
     let randomTargetDamage = Math.round(Math.random());
     if(randomTargetDamage == 0){
       obi.attack += Math.round((obi.attack / 2));
       console.log("Les dommages d'Obi Wan augmentent ! : " + obi.attack);
     } else if(randomTargetDamage == 1){
-      console.log("Les dommages de l'Orc augmentent ! : " + ennemy.attack);
       ennemy.attack += Math.round((ennemy.attack / 2));
+      console.log("Les dommages de l'Orc augmentent ! : " + ennemy.attack);
     }
   };
 };
@@ -175,17 +179,44 @@ var ennemy = new Warrior("Orc", 10, 500);
 var heal = new Heal();
 var getMoreDomage = new SuperDamage();
 
+
+obi.getName();
+ennemy.getName();
+
+obi.getDamage();
+ennemy.getDamage();
+
+
+obi.getLife();
+ennemy.getLife();
+
 while (ennemy.life > 0 && obi.life > 0) {
   
   
   ennemy.goFight(obi.name, obi.life, ennemy.attack);
   obi.goFight(ennemy.name, ennemy.life, obi.attack);
+
+
+  let randomCritics = Math.round(Math.random() * 20);
+
+  if(randomCritics == 1){
+    obi.goFight(ennemy.name, ennemy.life, obi.attack += obi.attack);
+    console.log("Coup critique ! " + obi.attack);
+  }
+
+  let randomDash = Math.round(Math.random() * 10);
+
+  if(randomDash == 1){
+
+    console.log("L'Orc a esquivé l'attaque.");
+  } else {
+    ennemy.life -= obi.attack;
+  }
   
   
   obi.life -= ennemy.attack;
-  ennemy.life -= obi.attack;
 
-  let randomDamage = Math.round(Math.random());
+  let randomDamage = Math.round(Math.random() * 5);
 
   if(randomDamage == 1 ) {
     getMoreDomage.getSuperDamage();
@@ -193,8 +224,7 @@ while (ennemy.life > 0 && obi.life > 0) {
   
 
 
-  let randomHeal = Math.round(Math.random());
-
+  let randomHeal = Math.round(Math.random() * 5);
   if(randomHeal == 1){
     heal.getHealth();
   }
@@ -209,15 +239,6 @@ while (ennemy.life > 0 && obi.life > 0) {
 
 
 
-// obi.getName();
-// ennemy.getName();
-
-// obi.getAttack();
-// ennemy.getAttack();
-
-
-// obi.getLife();
-// ennemy.getLife();
 
 
 // obi.getFight();
