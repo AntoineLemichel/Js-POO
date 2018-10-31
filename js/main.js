@@ -133,26 +133,77 @@ function Warrior(name, damage, life) {
 
   this.goFight = function (targetName, targetLife, targetAttack) {
     targetLife -= targetAttack;
-    console.log("J'attaque ! " + targetName + ", la cible lui reste : " + targetLife + " PV (PS : " + this.name + " )");
+    console.log("J'attaque " + targetName + ", la cible lui reste : " + targetLife + " PV (PS : " + this.name + " )");
 
   }
 };
 
+function Heal(){
 
-var obi = new Warrior("Obi Wan", 10, 100);
-var ennemy = new Warrior("Orc", 5, 150);
+  this.getHealth = function(){
+    let randomTarget = Math.round(Math.random());
+    if(randomTarget == 1){
+      obi.life += 10;
+      console.log("J'ai utilisé une potion de soin. " + obi.name);
+    } else if (randomTarget == 0) {
+      ennemy.life += 10;
+      console.log("J'ai utilisé une potion de soin. " + ennemy.name);
+    }
+  };
+}
 
+function SuperDamage(){
+
+  this.getSuperDamage = function(){
+    console.log("Pour rappel voici mes dégâts actuel : " + obi.attack);
+    console.log("Pour rappel voici mes dégâts actuel : " + ennemy.attack);
+    let randomTargetDamage = Math.round(Math.random());
+    if(randomTargetDamage == 0){
+      obi.attack += Math.round((obi.attack / 2));
+      console.log("Les dommages d'Obi Wan augmentent ! : " + obi.attack);
+    } else if(randomTargetDamage == 1){
+      console.log("Les dommages de l'Orc augmentent ! : " + ennemy.attack);
+      ennemy.attack += Math.round((ennemy.attack / 2));
+    }
+  };
+};
+
+
+var obi = new Warrior("Obi Wan", 10, 500);
+var ennemy = new Warrior("Orc", 10, 500);
+
+var heal = new Heal();
+var getMoreDomage = new SuperDamage();
 
 while (ennemy.life > 0 && obi.life > 0) {
+  
+  
   ennemy.goFight(obi.name, obi.life, ennemy.attack);
   obi.goFight(ennemy.name, ennemy.life, obi.attack);
+  
+  
   obi.life -= ennemy.attack;
   ennemy.life -= obi.attack;
+
+  let randomDamage = Math.round(Math.random());
+
+  if(randomDamage == 1 ) {
+    getMoreDomage.getSuperDamage();
+  }
+  
+
+
+  let randomHeal = Math.round(Math.random());
+
+  if(randomHeal == 1){
+    heal.getHealth();
+  }
+
   if (ennemy.life <= 0) {
-    console.log("J'ai été vaincu. " + ennemy.name);
+    console.log(ennemy.name + " a été tué.");
   }
   if (obi.life <= 0) {
-    console.log("J'ai été vaincu. " + obi.name);
+    console.log(obi.name + " a été tué.");
   }
 }
 
